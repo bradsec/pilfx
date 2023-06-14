@@ -18,6 +18,8 @@ git clone https://github.com/bradsec/pilfx
 
 3. Run the command `python3 pilfx.py (options)` as per examples shown below.
 
+## Color Palettes
+A list of pre-defined color palettes can be found in `color_palettes.py`. Additional palettes can be added you can then use by the name with `--set_colors "palettename"`
 
 ## Command-line Usage
 
@@ -32,10 +34,11 @@ git clone https://github.com/bradsec/pilfx
 
  [Batch Image Transformations and Effects with Python PIL]
 
-usage: pilfx.py [-h] [-s SRC_DIR] [-d DST_DIR] [-b BLUR] [-c REDUCE_COLORS] [-g] [-i] [-o OPACITY] [-r ROTATE] [--width WIDTH]
-                [--height HEIGHT] [--scale SCALE] [--algo ALGO] [--filetype FILETYPE] [--pixelize [PIXELIZE]] [--halftone [HALFTONE]]
-                [--dither] [--posterize [POSTERIZE]] [--brightness BRIGHTNESS] [--saturation SATURATION] [--htsample HTSAMPLE]
-                [--set_colors SET_COLORS] [--set_trans_colors SET_TRANS_COLORS]
+No command line arguments provided
+usage: pilfx.py [-h] [-s SRC_DIR] [-d DST_DIR] [-c REDUCE_COLORS] [-g] [-i] [-o OPACITY] [-r ROTATE] [--width WIDTH] [--height HEIGHT]
+                [--scale SCALE] [--algo ALGO] [--filetype FILETYPE] [--pixelize [PIXELIZE]] [--halftone [HALFTONE]] [--dither]
+                [--posterize [POSTERIZE]] [--blur_before BLUR_BEFORE] [--blur_after BLUR_AFTER] [--brightness BRIGHTNESS]
+                [--saturation SATURATION] [--htsample HTSAMPLE] [--set_colors SET_COLORS] [--set_trans_colors SET_TRANS_COLORS]
 
 Process images.
 
@@ -45,7 +48,6 @@ optional arguments:
                         Source (src) directory (contains original images to be processed)
   -d DST_DIR, --dst_dir DST_DIR
                         Destination (dst) directory (contains newly created images)
-  -b BLUR, --blur BLUR  Base blur factor (ensures consistent blur effect regardless of image size)
   -c REDUCE_COLORS, --reduce_colors REDUCE_COLORS
                         Reduce the amount of colors in the images color palette
   -g, --grayscale       Grayscale
@@ -66,6 +68,10 @@ optional arguments:
   --dither              Apply FLOYDSTEINBERG dithering
   --posterize [POSTERIZE]
                         Posterize image bits 1-8
+  --blur_before BLUR_BEFORE
+                        Blur factor (before any effects applied) - Recommended values 0-10, high values can be used
+  --blur_after BLUR_AFTER
+                        Blur factor (after any effects are applied) - Recommended values 0-10, high values can be used
   --brightness BRIGHTNESS
                         Brightness
   --saturation SATURATION
@@ -77,6 +83,21 @@ optional arguments:
                         Colors to be made transparent
 
 ```
+
+## Sample Images and Commands
+
+Sample photo credit - [Unsplash](https://unsplash.com/photos/X16zXcbxU4U)
+
+| Command | Resulting Image |
+|------------------|------------------|
+| `python3 pilfx.py --halftone "#000000, #FFFFFF"`| <img src="dst/car_1920x1280_halftone10_colors_000000_ffffff.png" alt="dst/car_1920x1280_halftone10_colors_000000_ffffff.png" width="400"> |
+| `python3 pilfx.py --halftone "#00FF00, #000000" --htsample 20 --scale 150`| <img src="dst/car_2880x1920_halftone20_colors_00ff00_000000.png" alt="dst/car_2880x1920_halftone20_colors_00ff00_000000.png" width="400"> |
+| `python3 pilfx.py --set_colors "cga"`| <img src="dst/car_1920x1280_cga_colorpalette_8color_cga_colorpalette.png" alt="dst/car_1920x1280_cga_colorpalette_8color_cga_colorpalette.png" width="400"> |
+| `python3 pilfx.py --reduce_colors 16 --pixelize 128`| <img src="dst/car_1920x1280_16color_pixelized128.png" alt="dst/car_1920x1280_16color_pixelized128.png" width="400"> |
+| `python3 pilfx.py --scale 50 --rotate 45 --filetype .jpg` | <img src="dst/car_1132x1132_rotated45.jpg" alt="dst/car_1132x1132_rotated45.jpg" width="400"> |
+| `python3 pilfx.py --reduce_colors 16 --invert --grayscale --filetype .jpg` | <img src="dst/car_1920x1280_16color_grayscale_invert.jpg" alt="dst/car_1920x1280_16color_grayscale_invert.jpg" width="400"> |
+| `python3 pilfx.py --reduce_colors 8 --filetype .jpg --pixelize 512 --saturation 3.0 --brightness 1.5` | <img src="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" alt="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" width="400"> |
+| `python3 pilfx.py --set_colors "solarized" --width 1000 --blur_before 10 --saturation 2.0 --brightness 1.5` | <img src="dst/car_1000x666_blur10.0_solarized_colorpalette_16color_solarized_colorpalette_br1.5_sat2.0.png" alt="dst/car_1000x666_blur10.0_solarized_colorpalette_16color_solarized_colorpalette_br1.5_sat2.0.png" width="400"> |
 
 ## Example Usage
 
@@ -144,21 +165,3 @@ python3 pilfx.py --set_colors "c64" --pixelize 128
 # Rotate images with --rotate and angle
 python3 pilfx.py --rotate 90
 ```
-
-
-## Sample Images
-
-Sample photo credit - [Unsplash](https://unsplash.com/photos/X16zXcbxU4U)
-
-| Command | Resulting Image |
-|------------------|------------------|
-| `python3 pilfx.py --halftone "#000000, #FFFFFF"`| <img src="dst/car_1920x1280_halftone10_colors_000000_ffffff.png" alt="dst/car_1920x1280_halftone10_colors_000000_ffffff.png" width="400"> |
-| `python3 pilfx.py --halftone "#00FF00, #000000" --htsample 20 --scale 150`| <img src="dst/car_2880x1920_halftone20_colors_00ff00_000000.png" alt="dst/car_2880x1920_halftone20_colors_00ff00_000000.png" width="400"> |
-| `python3 pilfx.py --set_colors "cga"`| <img src="dst/car_1920x1280_cga_colorpalette_8color_cga_colorpalette.png" alt="dst/car_1920x1280_cga_colorpalette_8color_cga_colorpalette.png" width="400"> |
-| `python3 pilfx.py --reduce_colors 16 --pixelize 128`| <img src="dst/car_1920x1280_16color_pixelized128.png" alt="dst/car_1920x1280_16color_pixelized128.png" width="400"> |
-| `python3 pilfx.py --scale 50 --rotate 45 --filetype .jpg` | <img src="dst/car_1132x1132_rotated45.jpg" alt="dst/car_1132x1132_rotated45.jpg" width="400"> |
-| `python3 pilfx.py --reduce_colors 16 --invert --grayscale --filetype .jpg` | <img src="dst/car_1920x1280_16color_grayscale_invert.jpg" alt="dst/car_1920x1280_16color_grayscale_invert.jpg" width="400"> |
-
-## Color Palettes
-A list of predefined color palettes can be found in `color_palettes.py`. Additional palettes can be added you can then use by the name with `--set_colors "palettename"`
-

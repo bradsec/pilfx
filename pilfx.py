@@ -74,6 +74,7 @@ class BatchPILFX:
     def image_blur(self, image: Image, base_blur_factor: float) -> Image:
         width, height = image.size
         image_area = width * height
+        self.filename_addon += f"_blur{base_blur_factor}"
         blur_factor = base_blur_factor * (sqrt(image_area) / (100 * sqrt(100)))
         return image.filter(ImageFilter.GaussianBlur(blur_factor))
 
@@ -374,8 +375,8 @@ class BatchPILFX:
                 if self.args.scale or self.args.width != 0 or self.args.height != 0:
                     processed_image = self.crop_resize_image(image, self.args.width, self.args.height, self.args.scale)
 
-                if self.args.blur > 0:
-                    processed_image = self.image_blur(processed_image, self.args.blur)
+                if self.args.blur_before > 0.0:
+                    processed_image = self.image_blur(processed_image, self.args.blur_before)
 
                 if self.args.halftone != "":
                     self.filename_addon += f"_halftone{self.args.htsample}"
@@ -424,9 +425,11 @@ class BatchPILFX:
                         processed_image = self.convert_to_grayscale(processed_image)
                     
                     if self.args.brightness != 1.0:
+                        self.filename_addon += f"_br{self.args.brightness}"
                         processed_image = self.adjust_brightness(processed_image, self.args.brightness)
 
                     if self.args.saturation != 1.0:
+                        self.filename_addon += f"_sat{self.args.saturation}"
                         processed_image = self.adjust_saturation(processed_image, self.args.saturation)
 
                 if self.args.set_trans_colors:
@@ -439,11 +442,13 @@ class BatchPILFX:
                 if self.args.invert:
                     self.filename_addon += "_invert"
                     processed_image = self.invert_image(processed_image)
+                
+                if self.args.blur_after > 0.0:
+                    processed_image = self.image_blur(processed_image, self.args.blur_after)
 
                 if self.args.opacity >= 0.0 and self.args.opacity < 1.0:
                     self.filename_addon += f"_opacity{self.args.opacity}"
                     processed_image = self.adjust_opacity(processed_image, self.args.opacity)
-
 
                 new_filename = f"{file.stem}_{self.width}x{self.height}{self.filename_addon}"
 
@@ -469,7 +474,6 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Process images.')
     parser.add_argument('-s', '--src_dir', default='src', help='Source (src) directory (contains original images to be processed)')
     parser.add_argument('-d', '--dst_dir', default='dst', help='Destination (dst) directory (contains newly created images)')
-    parser.add_argument('-b', '--blur', type=float, default=0, help='Base blur factor (ensures consistent blur effect regardless of image size)')
     parser.add_argument('-c', '--reduce_colors', type=int, default=0, help='Reduce the amount of colors in the images color palette')
     parser.add_argument('-g', '--grayscale', action='store_true', default=False, help='Grayscale')
     parser.add_argument('-i', '--invert', action='store_true', help='Invert colors')
@@ -484,6 +488,8 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('--halftone', nargs='?', const=None, default='', help='Halftone foreground and background colors')
     parser.add_argument('--dither', action='store_true', default=False, help='Apply FLOYDSTEINBERG dithering')
     parser.add_argument('--posterize', type=int, nargs='?', const=None, default=0, help='Posterize image bits 1-8')
+    parser.add_argument('--blur_before', type=float, default=0.0, help='Blur factor (before any effects applied) - Recommended values 0-10, high values can be used')
+    parser.add_argument('--blur_after', type=float, default=0.0, help='Blur factor (after any effects are applied) - Recommended values 0-10, high values can be used')
     parser.add_argument('--brightness', type=float, default=1.0, help='Brightness', dest='brightness')
     parser.add_argument('--saturation', type=float, default=1.0, help='Saturation', dest='saturation')
     parser.add_argument('--htsample', type=int, default=10, help='Change halftone sample size')
