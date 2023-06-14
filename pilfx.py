@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import sys
+import random
 from math import sqrt
 from typing import List, Optional
 from pathlib import Path
@@ -38,6 +39,7 @@ class BatchPILFX:
         self.image = None
         self.draw = None
         self.resample_algorithm = args.algo
+        self.shuffle_colors = args.shuffle_colors
         self.src_dir = args.src_dir
         self.dst_dir = args.dst_dir or args.src_dir
         os.makedirs(self.dst_dir, exist_ok=True)
@@ -103,6 +105,7 @@ class BatchPILFX:
     def get_color_values(self, colors_string: str) -> List[str]:
         """Process a string of HEX colors and return a list"""
         colors_string_lower = colors_string.lower()
+        
         if colors_string_lower in [palette.lower() for palette in COLOR_PALETTES]:
             color_values = COLOR_PALETTES[next(palette for palette in COLOR_PALETTES if palette.lower() == colors_string_lower)]
             self.filename_addon += f"_{colors_string.lower()}_colorpalette"
@@ -110,6 +113,10 @@ class BatchPILFX:
             color_values = [color.strip() for color in colors_string.split(",")]
             colors_string = '_'.join(color[1:] for color in color_values)
             self.filename_addon += f"_colors_{colors_string.lower()}"
+        
+        if self.shuffle_colors:
+            random.shuffle(color_values)
+        
         return color_values
 
     def quantize_image(self, image: Image, quantize_num_colors: int, set_colors: Optional[str] = None) -> Image:
@@ -493,6 +500,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('--brightness', type=float, default=1.0, help='Brightness', dest='brightness')
     parser.add_argument('--saturation', type=float, default=1.0, help='Saturation', dest='saturation')
     parser.add_argument('--htsample', type=int, default=10, help='Change halftone sample size')
+    parser.add_argument('--shuffle_colors', action='store_true', default=True, help='Colors in --set_colors including color palettes will be shuffled each time.')
     parser.add_argument('--set_colors', default='', help='Custom colors or color palette name to replace existing colors')
     parser.add_argument('--set_trans_colors', default='', help='Colors to be made transparent')
 

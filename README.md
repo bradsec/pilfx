@@ -38,7 +38,8 @@ No command line arguments provided
 usage: pilfx.py [-h] [-s SRC_DIR] [-d DST_DIR] [-c REDUCE_COLORS] [-g] [-i] [-o OPACITY] [-r ROTATE] [--width WIDTH] [--height HEIGHT]
                 [--scale SCALE] [--algo ALGO] [--filetype FILETYPE] [--pixelize [PIXELIZE]] [--halftone [HALFTONE]] [--dither]
                 [--posterize [POSTERIZE]] [--blur_before BLUR_BEFORE] [--blur_after BLUR_AFTER] [--brightness BRIGHTNESS]
-                [--saturation SATURATION] [--htsample HTSAMPLE] [--set_colors SET_COLORS] [--set_trans_colors SET_TRANS_COLORS]
+                [--saturation SATURATION] [--htsample HTSAMPLE] [--shuffle_colors] [--set_colors SET_COLORS]
+                [--set_trans_colors SET_TRANS_COLORS]
 
 Process images.
 
@@ -77,6 +78,7 @@ optional arguments:
   --saturation SATURATION
                         Saturation
   --htsample HTSAMPLE   Change halftone sample size
+  --shuffle_colors      Colors in --set_colors including color palettes will be shuffled each time.
   --set_colors SET_COLORS
                         Custom colors or color palette name to replace existing colors
   --set_trans_colors SET_TRANS_COLORS
@@ -97,7 +99,7 @@ Sample photo credit - [Unsplash](https://unsplash.com/photos/X16zXcbxU4U)
 | `python3 pilfx.py --scale 50 --rotate 45 --filetype .jpg` | <img src="dst/car_1132x1132_rotated45.jpg" alt="dst/car_1132x1132_rotated45.jpg" width="400"> |
 | `python3 pilfx.py --reduce_colors 16 --invert --grayscale --filetype .jpg` | <img src="dst/car_1920x1280_16color_grayscale_invert.jpg" alt="dst/car_1920x1280_16color_grayscale_invert.jpg" width="400"> |
 | `python3 pilfx.py --reduce_colors 8 --filetype .jpg --pixelize 512 --saturation 3.0 --brightness 1.5` | <img src="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" alt="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" width="400"> |
-| `python3 pilfx.py --set_colors "solarized" --width 1000 --blur_before 10 --saturation 2.0 --brightness 1.5` | <img src="dst/car_1000x666_blur10.0_solarized_colorpalette_16color_solarized_colorpalette_br1.5_sat2.0.png" alt="dst/car_1000x666_blur10.0_solarized_colorpalette_16color_solarized_colorpalette_br1.5_sat2.0.png" width="400"> |
+| `python3 pilfx.py --set_colors "solarized" --width 1000 --blur_before 10 --saturation 2.0 --brightness 1.5` | <img src="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" alt="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" width="400"> |
 
 ## Example Usage
 
