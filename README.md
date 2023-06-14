@@ -99,7 +99,7 @@ Sample photo credit - [Unsplash](https://unsplash.com/photos/X16zXcbxU4U)
 | `python3 pilfx.py --scale 50 --rotate 45 --filetype .jpg` | <img src="dst/car_1132x1132_rotated45.jpg" alt="dst/car_1132x1132_rotated45.jpg" width="400"> |
 | `python3 pilfx.py --reduce_colors 16 --invert --grayscale --filetype .jpg` | <img src="dst/car_1920x1280_16color_grayscale_invert.jpg" alt="dst/car_1920x1280_16color_grayscale_invert.jpg" width="400"> |
 | `python3 pilfx.py --reduce_colors 8 --filetype .jpg --pixelize 512 --saturation 3.0 --brightness 1.5` | <img src="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" alt="dst/car_1920x1280_8color_pixelized512_br1.5_sat3.0.jpg" width="400"> |
-| `python3 pilfx.py --set_colors "solarized" --width 1000 --blur_before 10 --saturation 2.0 --brightness 1.5` | <img src="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" alt="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" width="400"> |
+| `python3 pilfx.py --reduce_colors 128 --set_colors "solarized" --blur_before 15 --pixelize 1024` | <img src="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" alt="dst/car_1920x1280_blur15.0_128color_solarized_colorpalette_pixelized1024.png" width="400"> |
 
 ## Example Usage
 
