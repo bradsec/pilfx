@@ -14,12 +14,22 @@ A Python batch image processing utility which uses the Pillow (PIL) library to a
 ```terminal
 git clone https://github.com/bradsec/pilfx
 ```
-2. Place original images into the `src` directory within the newly created pilfx directory. New images will be created in `dst` directory. These default locations can be changes using the -s and -d arguments.
+2. Place original images into the `src` directory within the cloned pilfx directory. 
+
+Note: Newly generated images will be saved in the `dst` directory.  
+**The src and dst locations can be changes using the -s and -d arguments.**
 
 3. Run the command `python3 pilfx.py (options)` as per examples shown below.
 
 ## Color Palettes
-A list of pre-defined color palettes can be found in `color_palettes.py`. Additional palettes can be added you can then use by the name with `--set_colors "palettename"`
+A list of pre-defined color palettes can be found in `color_palettes.py`. Additional palettes can be added. Color palette are used the set colors arguments `--set_colors "palettename"`
+
+Colors can also be set manually. Colors must be in HEX format example for red, white and black: `--set_colors "#ff0000,#ffffff,#000000"`
+
+To make a color transparent in the end image for png files only use `--set_trans_color`  
+Example black transparet `--set_trans_color "#000000"`  
+
+*For detailed photos this works best when you have reduced and set the colors in the image.*
 
 ## Command-line Usage
 
